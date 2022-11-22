@@ -56,12 +56,12 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                                 try {
                                     LocalDateTime notificationTime = LocalDateTime.parse(dateString, DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm"));
                                     //System.out.println(notificationTime.format(DateTimeFormatter.ofPattern("HH:mm , dd MM yyyy ")));
-                                    NotificationTask newTask = new NotificationTask(1L,
+                                    NotificationTask newTask = new NotificationTask(null,
                                             update.message().chat().id(),
                                             messageText.substring(16),
                                             notificationTime);
                                     notificationTaskRepository.save(newTask);
-                                    System.out.println(notificationTaskRepository.findById(1L).orElse(null));
+                                    //System.out.println(notificationTaskRepository.findById(2L).orElse(null));
                                     //System.out.println(notificationTaskRepository.save(new NotificationTask(1L, update.message().chat().id(),messageText.substring(16),notificationTime)));
                                 } catch (DateTimeParseException e) {
                                     System.out.println("неверно введена дата");
