@@ -40,6 +40,7 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                         String messageText = update.message().text();
                         if (isMessageCorrect(messageText)) {
                             createAndSaveTaskFromMessage(update.message());
+                            sendAcceptInChat(update.message().chat());
                         } else {
                             sendErrorInChat(update.message().chat());
                         }
@@ -51,12 +52,18 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
         return UpdatesListener.CONFIRMED_UPDATES_ALL;
     }
 
+    private void sendAcceptInChat(Chat chat) {
+        String message = "Напоминание создано";
+        SendMessage errorMessage = new SendMessage(chat.id(), message);
+        telegramBot.execute(errorMessage);
+    }
+
     private void createAndSaveTaskFromMessage(Message message) {
         messageHandler.createTaskFromMessage(message);
     }
 
     private void sendErrorInChat(Chat chat) {
-        String message = "Введите сообщение для уведомления в формате \"dd.mm.yyyy MM:HH Text\"";
+        String message = "Введите сообщение для уведомления в формате \"dd.mm.yyyy MM:HH TEXT\"";
         SendMessage errorMessage = new SendMessage(chat.id(), message);
         telegramBot.execute(errorMessage);
     }

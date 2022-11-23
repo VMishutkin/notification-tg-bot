@@ -17,7 +17,7 @@ public class ScheduleService {
     @Autowired
     private TelegramBot telegramBot;
 
-    @Scheduled(cron = "0/10 * * * * *")
+    @Scheduled(cron = "0 0/1 * * * *")
     private void checkTimeForClosestNotifications() {
         boolean isNeedCheckNext;
         do {
