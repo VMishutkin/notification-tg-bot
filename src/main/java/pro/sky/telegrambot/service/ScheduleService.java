@@ -9,15 +9,35 @@ import pro.sky.telegrambot.model.NotificationTask;
 import pro.sky.telegrambot.repository.NotificationTaskRepository;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class ScheduleService {
-    @Autowired
-    private NotificationTaskRepository notificationTaskRepository;
-    @Autowired
-    private TelegramBot telegramBot;
+
+    private final NotificationTaskRepository notificationTaskRepository;
+
+
+    private final TelegramBot telegramBot;
+
+    public ScheduleService(NotificationTaskRepository notificationTaskRepository, TelegramBot telegramBot) {
+        this.notificationTaskRepository = notificationTaskRepository;
+        this.telegramBot = telegramBot;
+    }
 
     @Scheduled(cron = "0 0/1 * * * *")
+    private void checkPastTasks() {
+            List<NotificationTask> pastTask = notificationTaskRepository.getPastTasks();
+            if(pastTask==null){
+                return;
+            }
+
+        for (NotificationTask task: pastTask) {
+            sendNotificationResponse(task);
+            deleteEntryFromBase(task);
+        }
+    }
+
+
     private void checkTimeForClosestNotifications() {
         boolean isNeedCheckNext;
         do {

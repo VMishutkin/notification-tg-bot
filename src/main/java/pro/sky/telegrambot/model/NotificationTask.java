@@ -18,11 +18,11 @@ public class NotificationTask {
     public NotificationTask() {
     }
 
-    public NotificationTask(Long id,
+    public NotificationTask(
                             Long chatID,
                             String notificationText,
                             LocalDateTime notificationTaskTime) {
-        this.id = id;
+
         this.chatID = chatID;
         this.notificationText = notificationText;
         this.notificationTaskTime = notificationTaskTime;
@@ -37,6 +37,8 @@ public class NotificationTask {
     }
 
     public String getNotificationText() {
+        if(notificationText==null)
+            return " ";
         return notificationText;
     }
 
